@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        div {
+            display: flex;
+            width: 100%;
+            margin: auto;
+            flex-direction: column;
+            max-width: 300px;
+            align-items: center;
+        }
+        h1, h2, h3, h4{
+            text-align: center;
+            margin: 10px;
+        }
+        footer{
+            text-align: center;
+            margin: 50px 0;
+        }
+        button{
+            border: none;
+            margin: 10px;
+            padding: 5px 15px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            width: 100%;
+        }
+        .ativo{
+            border: 2px solid #000;
+        }
+        .conf{
+            margin: 30px 5px;
+            background: rgb(49, 49, 49);
+            color: white;
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quiz</h1>
+        <h3>Feito por Augusto</h3>
+    </header>
+    <h2>Quiz do Augusto</h2>
+    <div id="container"></div>
+    <div id="res"></div>
+    <footer>
+        Regras: <br> 
+        Acertar = 2 Pontos <br>
+        Errar = -1 Ponto
+    </footer>
+    <script>
+        const cont = document.getElementById("container");
+        const res = document.getElementById('res');
+        const perguntas = [
+            {
+                qst: "Qual é a minha idade?",
+                per: ["11", "24", "16"],
+                cor: "16"
+            },
+            {
+            qst: "Em qual escola eu estudo?",
+                per: ["Escola S", "Guarapuvu", "Escola da Ilha"],
+                cor: "Escola S"
+            },
+            {
+            qst: "Qual minha bebida favorita?",
+                per: ["Água", "Refrigerante", "Água com gás"],
+                cor: "Refrigerante"
+            },
+            {
+            qst: "Calça ou short?",
+                per: ["Calça", "Short"],
+                cor: "Calça"
+            },
+            {
+            qst: "Série ou filme?",
+                per: ["Série", "Filme"],
+                cor: "Série"
+            },
+            {
+            qst: "Nome da minha mãe?",
+                per: ["Fernanda", "Cláudia", "Sandra"],
+                cor: "Sandra"
+            },
+            {
+            qst: "Hollow Knight ou Zelda Breath of the Wild?",
+                per: ["Hollow Knight", "Zelda Breath of the Wild"],
+                cor: "Hollow Knight"
+            },
+            {
+            qst: "Escrever ou digitar?",
+                per: ["Escrever", "Digitar"],
+                cor: "Digitar"
+            },
+            {
+            qst: "Série favorita?",
+                per: ["13 Reasons Why", "Breaking Bad", "Stranger Things"],
+                cor: "Stranger Things"
+            },
+            {
+            qst: "Filme favorito?",
+                per: ["Vingadores Endgame", "Um contratempo", "Logan"],
+                cor: "Um contratempo"
+            },
+            {
+            qst: "Nome do meu cachorro?",
+                per: ["Scooby", "Caramelo", "Paçoca"],
+                cor: "Scooby"
+            },
+            {
+            qst: "Pizza ou hambúrguer?",
+                per: ["Hambúrguer", "Pizza"],
+                cor: "Pizza"
+            },
+            {
+            qst: "Matéria favorita?",
+                per: ["Português", "História", "Inglês"],
+                cor: "Inglês"
+            },
+            {
+            qst: "Cor favorita?",
+                per: ["Vermelho", "Verde", "Azul"],
+                cor: "Vermelho"
+            },
+            {
+            qst: "Qual é melhor?",
+                per: ["Tik Tok", "Instagram Reels", "Youtube Shorts"],
+                cor: "Instagram Reels"
+            },
+            {
+            qst: "Carro é melhor que moto?",
+                per: ["Verdadeiro", "Falso"],
+                cor: "Verdadeiro"
+            },
+            {
+            qst: "Futebol ou Basquete?",
+                per: ["Futebol", "Basquete"],
+                cor: "Basquete"
+            },
+            {
+            qst: "Qual eu sou?",
+                per: ["Destro", "Canhoto", "Ambidestro"],
+                cor: "Destro"
+            },
+            {
+            qst: "Qual é o melhor?",
+                per: ["Whatsapp", "Discord", "Telegram"],
+                cor: "Discord"
+            },
+            {
+            qst: "Qual eu odeio mais?",
+                per: ["Química", "Física", "Biologia"],
+                cor: "Biologia"
+            }
+        ]
+
+        const resp = [];
+
+        function add(n,e){
+            let op = document.querySelectorAll(`.${e.dataset.op}`);
+            for(v in op){
+                op[v].className = `${e.dataset.op}`;
+            }
+            e.className = `${e.className} ativo`;
+    
+            resp[n] = e.innerText;
+        }
+
+        function conferir(){
+            let bol = ()=>{
+                let g = [];
+                let l = false;
+                for(let k in resp){
+                    g.push(resp[k]);
+                }
+                if(g.length < perguntas.length){
+                    l = true;
+                }
+                return l;
+            }
+
+            if(resp.length>=perguntas.length && bol() === false){
+                let points = 0;
+                let ca = 0;
+                for(o in perguntas){
+                    let cp = perguntas[o].cor;
+                    let answ = resp[o];
+
+                    if(cp === answ){
+                        points = points + 2;   
+                        ca++;                     
+                    } else {
+                        points--;
+                    }
+                }
+                res.innerHTML = `
+                    <p>Sua pontuação foi de</p><br>
+                    <p>${points} pontos</p> <br>
+                    <p>Você acertou ${ca}/${perguntas.length}</p>
+                `;
+                resp = [];
+            } else {
+                alert('Responda todas as perguntas antes de conferir')
+            }
+
+        }
+
+        
+        for(i in perguntas){
+            let q = perguntas[i].qst;
+            let p = () => {
+                let pin = "";
+                let pp = perguntas[i].per;
+                for(u in pp){
+                    pin += `<button data-op='b${i}' class='b${i}' onclick='add("${i}",this)'>${pp[u]}</button>`;
+                }
+                return pin;
+            }
+
+            cont.innerHTML += `
+                <h4>${q}</h4>
+                <div>${p()}</div>
+            `
+
+        }
+
+        
+        cont.innerHTML+="<div> <button class='conf' onclick='conferir()'>Conferir</button> </div>"
+    </script>
+</body>
+</html>
